@@ -1,0 +1,7 @@
+{
+  "name": "SkillBites AI_WorkOnThis",
+  "description": "SkillBites AI offers 10-minute daily personal coaching sessions to help you achieve any real-life goal. Get personalized micro-lessons, exercises, and track your progress to build new skills and habits effectively.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
