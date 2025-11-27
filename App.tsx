@@ -1242,7 +1242,13 @@ export default function App() {
     const handleGeneratePlan = async (goalTitle: string, difficulty: Difficulty, type: ProgramType = '7-days', durationString: string = '15 mins/day', isNextLevel: boolean = false) => {
         setIsLoading(true);
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+            // Safety check for API Key (common deployment issue)
+            const apiKey = process.env.API_KEY; 
+            if (!apiKey) {
+                throw new Error("API Key is missing. Please check your Vercel environment variables.");
+            }
+
+            const ai = new GoogleGenAI({ apiKey });
             
             const numLessons = type === '1-day' ? 5 : 7;
             
@@ -1266,11 +1272,11 @@ export default function App() {
             let quizCount = 3;
             let exampleCount = 2;
 
-            // If longer than 25 minutes, ramp up content significantly
+            // If longer than 25 minutes, ramp up content significantly, but cap it to prevent timeouts/errors
             if (minutesPerLesson > 25) {
-                paragraphCount = Math.max(12, Math.ceil(minutesPerLesson / 2)); // e.g., 48 mins -> ~24 paragraphs
-                quizCount = Math.max(5, Math.ceil(minutesPerLesson / 5));     // e.g., 48 mins -> ~10 questions
-                exampleCount = 4;
+                paragraphCount = Math.min(10, Math.ceil(minutesPerLesson / 3)); // Capped at 10 paragraphs max to be safe
+                quizCount = Math.min(5, Math.ceil(minutesPerLesson / 6));     // Capped at 5 questions max
+                exampleCount = 3;
             }
 
             const durationContext = type === '1-day' 
@@ -1280,7 +1286,7 @@ export default function App() {
             const structureInstruction = type === '1-day' ? `Divide the day into ${numLessons} logical modules/steps.` : `Create a 7-day plan.`;
             
             const depthInstruction = minutesPerLesson >= 30 
-                ? "EXTENSIVE DEPTH. This is a deep-dive masterclass. You MUST provide very detailed explanations, multiple subsections, theoretical background, and step-by-step guides to adequately fill the time." 
+                ? "EXTENSIVE DEPTH. This is a deep-dive masterclass. You MUST provide detailed explanations." 
                 : "Concise and actionable.";
 
             // Enhanced Prompt for Gamification and Real-time examples
@@ -1299,10 +1305,10 @@ export default function App() {
                 3. Do NOT include comments in the JSON (like // ...).
                 4. For each lesson:
                    - The 'duration' field MUST be exactly ${minutesPerLesson}.
-                   - 'content': ${depthInstruction} Include at least ${paragraphCount} paragraphs to ensure it takes time to read and absorb.
+                   - 'content': ${depthInstruction} Include at least ${paragraphCount} paragraphs.
                    - 'realWorldExamples': An array of ${exampleCount} distinct strings.
-                   - 'practicalTask': A complex, multi-step practical exercise or calculation task that takes time to complete, appropriate for a ${minutesPerLesson}-minute session.
-                   - 'gamifiedQuiz': An array of exactly ${quizCount} questions. Each question must have 'options' (array of strings) and 'correctAnswer' (string). These should test deep understanding.
+                   - 'practicalTask': A complex, multi-step practical exercise or calculation task.
+                   - 'gamifiedQuiz': An array of exactly ${quizCount} questions. Each question must have 'options' (array of strings) and 'correctAnswer' (string).
 
                 JSON Schema:
                 {
@@ -1341,7 +1347,7 @@ export default function App() {
             });
 
             let text = response.text;
-            if (!text) throw new Error("No response");
+            if (!text) throw new Error("No response from AI model.");
             
             // Cleanup in case markdown is still returned despite instructions
             text = text.replace(/```json/g, '').replace(/```/g, '').trim();
@@ -1353,11 +1359,10 @@ export default function App() {
                 setPlan(newPlan);
                 setView('plan');
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error generating plan:", error);
-            // Log the raw text if parsing failed to help debugging (in console)
-            // But for user, just show alert
-            alert("Something went wrong generating your plan. Please try again.");
+            // Show specific error message to user to help debug deployment issues
+            alert(`Error: ${error.message || "Something went wrong generating your plan. Please check your API Key configuration."}`);
         } finally {
             setIsLoading(false);
         }
