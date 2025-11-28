@@ -1,6 +1,6 @@
 
-
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Analytics } from "@vercel/analytics/react";
 import { GoogleGenAI, Type } from "@google/genai";
 import { User, Goal, Plan, Lesson, Badge, AppSettings, SubscriptionTier, Difficulty, QuizQuestion, ProgramType } from './types';
 import { DUMMY_USER, ALL_DUMMY_BADGES, DUMMY_DRILLS, DUMMY_TESTIMONIALS, DUMMY_BREATHING_DRILL } from './constants';
@@ -1506,6 +1506,8 @@ export default function App() {
                     setShowLegal(true);
                 }
             }} />
+
+            <Analytics />
         </div>
     );
 }

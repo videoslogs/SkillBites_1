@@ -1,5 +1,5 @@
 {
-  "name": "skillbites-ai_workonthis",
+  "name": "skillbites-ai_live",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,7 +12,8 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "@google/genai": "^1.29.1",
-    "@supabase/supabase-js": "2"
+    "@supabase/supabase-js": "2",
+    "@vercel/analytics": "^1.5.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

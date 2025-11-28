@@ -1,1 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirm Your Signup</title>
+  <style>
+    /* Reset styles */
+    body { margin: 0; padding: 0; width: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    img { border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+    table { border-collapse: collapse !important; }
+    
+    /* Branding Colors */
+    /* Teal-600: #0d9488, Teal-500: #14b8a6, Slate-900: #0f172a, Slate-600: #475569 */
+    
+    .button:hover { background-color: #0d9488 !important; }
+  </style>
+</head>
+<body style="background-color: #f8fafc; margin: 0; padding: 0;">
+  
+  <!-- Container -->
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; margin-top: 40px; margin-bottom: 40px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+    
+    <!-- Header -->
+    <tr>
+      <td align="center" style="padding: 40px 0 30px 0; background-color: #0f172a;">
+        <!-- Logo / Brand Name -->
+        <h1 style="color: #ffffff; font-size: 24px; font-weight: 800; margin: 0; letter-spacing: -0.025em; font-family: sans-serif;">
+          <span style="color: #14b8a6;">SkillBites</span> AI
+        </h1>
+      </td>
+    </tr>
 
+    <!-- Body Content -->
+    <tr>
+      <td style="padding: 40px 40px 20px 40px; text-align: center;">
+        <h2 style="color: #0f172a; font-size: 24px; font-weight: 700; margin: 0 0 16px 0;">Confirm your email address</h2>
+        <p style="color: #475569; font-size: 16px; line-height: 24px; margin: 0 0 32px 0;">
+          You're just one step away from starting your personal growth journey. Please verify your email address to activate your account and start building new habits.
+        </p>
+
+        <!-- CTA Button -->
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tr>
+            <td align="center">
+              <a href="{{ .ConfirmationURL }}" target="_blank" style="display: inline-block; padding: 16px 32px; font-size: 16px; font-weight: 700; color: #ffffff; background-color: #14b8a6; text-decoration: none; border-radius: 12px; transition: background-color 0.3s ease;">
+                Confirm Email
+              </a>
+            </td>
+          </tr>
+        </table>
+        
+        <p style="color: #94a3b8; font-size: 14px; margin-top: 32px;">
+          Or copy and paste this link into your browser:<br>
+          <a href="{{ .ConfirmationURL }}" style="color: #14b8a6; word-break: break-all;">{{ .ConfirmationURL }}</a>
+        </p>
+      </td>
+    </tr>
+
+    <!-- Footer -->
+    <tr>
+      <td style="background-color: #f1f5f9; padding: 24px; text-align: center;">
+        <p style="color: #64748b; font-size: 12px; margin: 0;">
+          If you didn't request this email, you can safely ignore it.<br>
+          &copy; 2024 SkillBites AI. All rights reserved.
+        </p>
+      </td>
+    </tr>
+    
+  </table>
+
+</body>
+</html>
